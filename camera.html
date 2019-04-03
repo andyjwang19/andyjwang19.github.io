@@ -6,41 +6,42 @@
   <title>WebScanner - Camera</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <style>
-  .container {
+    .container {
       position: relative;
-  }
-  .videostream {
+    }
+
+    .videostream {
       width: 100%;
       height: auto;
       z-index: -1;
-  }
-  .overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: auto;
-    width: 100%;
-    opacity: .2;
-    background-color: red;
-  }
+    }
 
-  #prompt {
-    color: white;
-    font-size: 100px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-  }
+    .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: auto;
+      width: 100%;
+      opacity: .2;
+      background-color: red;
+    }
 
+    #prompt {
+      color: white;
+      font-size: 100px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      text-align: center;
+    }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script type="text/javascript" src="script1.js"></script>
+  <!-- <script type="text/javascript" src="script1.js"></script> -->
 </head>
 
 <body style="text-align: center;">
@@ -60,23 +61,22 @@
     </div>
     <img style="" id="screenshot-img" src="">
     <canvas style="display:none;"></canvas>
-    <p><a class="capture-button waves-effect waves-light btn">Capture video</a></p>      <p><a id="screenshot-button" class="waves-effect waves-light btn">Take screenshot</a></p>
+    <p><a class="capture-button waves-effect waves-light btn">Capture video</a></p>
+    <p><a id="screenshot-button" class="waves-effect waves-light btn">Take screenshot</a></p>
   </div>
   <br><br>
-  <input type="text" name="inputImage" id="inputImage"
-    value="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg" />
+  <input type="text" name="inputImage" id="inputImage" value="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg" />
 
   <div id="wrapper" style="width:1020px; display:table;">
     <div id="jsonOutput" style="width:600px; display:table-cell;">
-        Response:
-        <br><br>
-        <textarea id="responseTextArea" class="UIInput"
-                  style="width:580px; height:400px;"></textarea>
+      Response:
+      <br><br>
+      <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
     </div>
     <div id="imageDiv" style="width:420px; display:table-cell;">
-        Source image:
-        <br><br>
-        <img id="sourceImage" width="400" />
+      Source image:
+      <br><br>
+      <img id="sourceImage" width="400" />
     </div>
   </div>
 
@@ -85,7 +85,7 @@
       video: true
     };
 
-  facingMode: 'user'
+    facingMode: 'user'
 
     navigator.mediaDevices.getUserMedia(constraints).
     then((stream) => {
@@ -130,7 +130,8 @@
       screenshotButton.disabled = false;
       video.srcObject = stream;
     }
-  	function processImage() {
+
+    function processImage() {
       // **********************************************
       // *** Update or verify the following values. ***
       // **********************************************
@@ -147,15 +148,15 @@
       // If you use a free trial subscription key, you shouldn't need to change
       // this region.
       var uriBase =
-          "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
+        "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/read/core/asyncBatchAnalyze";
 
       // Request parameter.
       var params = {
-          "mode": "Handwritten",
+        "mode": "Handwritten",
       };
 
       // Display the image.
-      var sourceImageUrl = document.getElementById("screenshot-img").src;
+      var sourceImageUrl = document.getElementById("inputImage").value;
       document.querySelector("#sourceImage").src = sourceImageUrl;
       console.log(sourceImageUrl);
 
@@ -167,21 +168,21 @@
           url: uriBase + "?" + $.param(params),
 
           // Request headers.
-          beforeSend: function(jqXHR){
-              jqXHR.setRequestHeader("Content-Type","application/json");
-              jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+          beforeSend: function(jqXHR) {
+            jqXHR.setRequestHeader("Content-Type", "application/json");
+            jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
           },
 
           type: "POST",
 
           // Request body.
           data: '{"url": ' + '"' + sourceImageUrl + '"}',
-      })
+        })
 
-      .done(function(data, textStatus, jqXHR) {
+        .done(function(data, textStatus, jqXHR) {
           // Show progress.
           $("#responseTextArea").val("Handwritten text submitted. " +
-              "Waiting 10 seconds to retrieve the recognized text.");
+            "Waiting 10 seconds to retrieve the recognized text.");
 
           // Note: The response may not be immediately available. Handwriting
           // recognition is an asynchronous operation that can take a variable
@@ -189,63 +190,57 @@
           // recognize. You may need to wait or retry the GET operation.
           //
           // Wait ten seconds before making the second REST API call.
-          setTimeout(function () {
-              // "Operation-Location" in the response contains the URI
-              // to retrieve the recognized text.
-              var operationLocation = jqXHR.getResponseHeader("Operation-Location");
+          setTimeout(function() {
+            // "Operation-Location" in the response contains the URI
+            // to retrieve the recognized text.
+            var operationLocation = jqXHR.getResponseHeader("Operation-Location");
 
-              // Make the second REST API call and get the response.
-              $.ajax({
-                  url: operationLocation,
+            // Make the second REST API call and get the response.
+            $.ajax({
+                url: operationLocation,
 
-                  // Request headers.
-                  beforeSend: function(jqXHR){
-                      jqXHR.setRequestHeader("Content-Type","application/json");
-                      jqXHR.setRequestHeader(
-                          "Ocp-Apim-Subscription-Key", subscriptionKey);
-                  },
+                // Request headers.
+                beforeSend: function(jqXHR) {
+                  jqXHR.setRequestHeader("Content-Type", "application/json");
+                  jqXHR.setRequestHeader(
+                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
 
-                  type: "GET",
+                type: "GET",
               })
 
               .done(function(data) {
-                  // Show formatted JSON on webpage.
-                  $("#responseTextArea").val(JSON.stringify(data, null, 2));
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
               })
 
               .fail(function(jqXHR, textStatus, errorThrown) {
-                  // Display error message.
-                  var errorString = (errorThrown === "") ? "Error. " :
-                      errorThrown + " (" + jqXHR.status + "): ";
-                  errorString += (jqXHR.responseText === "") ? "" :
-                      (jQuery.parseJSON(jqXHR.responseText).message) ?
-                          jQuery.parseJSON(jqXHR.responseText).message :
-                          jQuery.parseJSON(jqXHR.responseText).error.message;
-                  alert(errorString);
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " :
+                  errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                  (jQuery.parseJSON(jqXHR.responseText).message) ?
+                  jQuery.parseJSON(jqXHR.responseText).message :
+                  jQuery.parseJSON(jqXHR.responseText).error.message;
+                alert(errorString);
               });
           }, 10000);
-      })
+        })
 
-      .fail(function(jqXHR, textStatus, errorThrown) {
+        .fail(function(jqXHR, textStatus, errorThrown) {
           // Put the JSON description into the text area.
           $("#responseTextArea").val(JSON.stringify(jqXHR, null, 2));
 
           // Display error message.
           var errorString = (errorThrown === "") ? "Error. " :
-              errorThrown + " (" + jqXHR.status + "): ";
+            errorThrown + " (" + jqXHR.status + "): ";
           errorString += (jqXHR.responseText === "") ? "" :
-              (jQuery.parseJSON(jqXHR.responseText).message) ?
-                  jQuery.parseJSON(jqXHR.responseText).message :
-                  jQuery.parseJSON(jqXHR.responseText).error.message;
+            (jQuery.parseJSON(jqXHR.responseText).message) ?
+            jQuery.parseJSON(jqXHR.responseText).message :
+            jQuery.parseJSON(jqXHR.responseText).error.message;
           alert(errorString);
-      });
-  };
+        });
+    };
   </script>
-
-
-
-
-
 </body>
-
 </html>
