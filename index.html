@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>WebScanner - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- <script type="text/javascript" src="script1.js"></script> -->
+  </head>
+  <body onload="typeWriter()">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo center"></a>
+      </div>
+    </nav>
+    <div style="text-align: center;">
+    <h1 id="heading"></h1>
+    <p id="text">Click <a href="camera.html">here</a> to open our web camera.</p>
+    </div>
+
+
+
+  </body>
+  <script type="text/javascript">
+    var i = 0;
+    var txt = 'Welcome to WebScanner.'; /* The text */
+    var speed = 50; /* The speed/duration of the effect in milliseconds */
+
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("heading").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+      typeWriter2();
+    }
+  </script>
+</html>
