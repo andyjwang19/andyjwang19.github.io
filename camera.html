@@ -225,15 +225,15 @@
 
               .done(function(data) {
                 // Show formatted JSON on webpage.
-								/*
-								var res = data["recognitionResults"]["boundingBox"]
-								var sRes = ""
-								for (var i = 0; i < len(res); i++) {
-									sRes += res["text"];
+								console.log(data);
+								var scannedLines = data.recognitionResults[0].lines;
+								var totalText = ""
+								for (var i = 0; i < scannedLines.length; i++) {
+									console.log(scannedLines[i].text)
+									totalText += scannedLines[i].text+="\n";
 								}
-
-                $("#responseTextArea").val(sRes);*/
-              	$("#responseTextArea").val(JSON.stringify(data, null, 2));
+              	//$("#responseTextArea").val(JSON.stringify(data, null, 2));
+              	$("#responseTextArea").val(totalText);
               })
 
               .fail(function(jqXHR, textStatus, errorThrown) {
