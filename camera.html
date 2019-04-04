@@ -78,9 +78,9 @@
       <br><br>
       <img id="sourceImage" width="400" />
     </div>
-		<button onclick="copyFrom()">Copy</button>
 
   </div>
+    <p><a onclick="copyFrom()" class="capture-button waves-effect waves-light btn">Copy</a></p>
 
   <script>
     function copyFrom() {
@@ -171,7 +171,7 @@
       };
 
       // Display the image.
-      var sourceImageUrl = document.getElementById("inputImage").value;
+      var sourceImageUrl = document.getElementById("screenshot-image").src;
       document.querySelector("#sourceImage").src = sourceImageUrl;
       console.log(sourceImageUrl);
 
