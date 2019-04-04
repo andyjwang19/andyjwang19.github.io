@@ -54,7 +54,7 @@
 
   <div id="screenshot">
     <div class="container">
-      <video style="border: 1px solid black; z-index: -1;" class="videostream" autoplay></video>
+      <video style="border: 1px solid black; z-index: -1;" class="videostream" autoplay playsinline></video>
       <div class="overlay">
         <canvas style="border: 1px solid black;" id="prompt"></canvas>
       </div>
@@ -78,14 +78,29 @@
       <br><br>
       <img id="sourceImage" width="400" />
     </div>
+		<button onclick="copyFrom()">Copy</button>
+
   </div>
 
   <script>
+    function copyFrom() {
+      /* Get the text field */
+      var copyText = document.getElementById("responseTextArea");
+
+      copyText.select();
+      document.execCommand("copy");
+    }
+
+
+
     const constraints = {
-      video: true
+      audio: false,
+         video: {
+             facingMode: 'environment'
+         }
     };
 
-    facingMode: 'environment'
+    // facingMode: 'environment'
 
     navigator.mediaDevices.getUserMedia(constraints).
     then((stream) => {
@@ -243,4 +258,5 @@
     };
   </script>
 </body>
+
 </html>
